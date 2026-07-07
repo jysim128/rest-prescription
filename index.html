@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>휴식 처방소</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#12161f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="휴식처방소">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#12161f;
+    --bg-1:#1b212d;
+    --bg-2:#232b39;
+    --paper:#f2e8cf;
+    --paper-line:#d9c9a3;
+    --ink:#2b2418;
+    --ink-soft:#6b6255;
+    --lamp:#f2a93b;
+    --lamp-dim:#8a6a2c;
+    --sage:#8fb79b;
+    --teal:#4fa9a0;
+    --plum:#9c7bb0;
+    --rose:#c76b5b;
+    --line:#33404f;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 700px 420px at 50% -10%, #26314226 0%, transparent 60%),
+      radial-gradient(ellipse 900px 600px at 80% 10%, rgba(242,169,59,0.06) 0%, transparent 55%),
+      var(--bg-0);
+    color:var(--paper);
+    font-family:'IBM Plex Sans KR', sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:32px 16px 60px;
+  }
+  .app{
+    width:100%;
+    max-width:440px;
+  }
+  .topbar{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:22px;
+    padding:0 4px;
+  }
+  .brand{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.12em;
+    color:var(--lamp);
+    text-transform:uppercase;
+  }
+  .brand-sub{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    color:#5b6472;
+  }
+
+  .hero{
+    background:linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:26px 24px 22px;
+    margin-bottom:16px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:-60px; right:-40px;
+    width:180px; height:180px;
+    background:radial-gradient(circle, rgba(242,169,59,0.35) 0%, transparent 70%);
+    filter:blur(4px);
+    pointer-events:none;
+  }
+  .hero h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:26px;
+    line-height:1.35;
+    margin:0 0 8px;
+    color:var(--paper);
+    position:relative;
+  }
+  .hero p{
+    margin:0;
+    font-size:13.5px;
+    line-height:1.6;
+    color:#b7c0cc;
+    position:relative;
+    max-width:34ch;
+  }
+
+  .card{
+    background:var(--bg-1);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px 20px 22px;
+    margin-bottom:14px;
+  }
+  .card h2{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:#8b95a3;
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .card h2::before{
+    content:"";
+    width:6px; height:6px;
+    border-radius:50%;
+    background:var(--lamp);
+    display:inline-block;
+  }
+
+  .chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chip{
+    flex:1 1 auto;
+    min-width:74px;
+    text-align:center;
+    padding:10px 10px;
+    border-radius:12px;
+    background:var(--bg-2);
+    border:1px solid var(--line);
+    color:#c7cfd9;
+    font-size:13px;
+    cursor:pointer;
+    transition:all .15s ease;
+    user-select:none;
+  }
+  .chip:hover{ border-color:#4b5a6c; }
+  .chip.active{
+    background:rgba(242,169,59,0.14);
+    border-color:var(--lamp);
+    color:var(--lamp);
+    font-weight:500;
+  }
+
+  .slider-wrap{ padding:4px 2px 0; }
+  .slider-value{
+    font-family:'Fraunces', serif;
+    font-size:30px;
+    color:var(--lamp);
+    margin-bottom:2px;
+  }
+  .slider-value span{ font-size:15px; color:#9aa4b1; font-family:'IBM Plex Sans KR',sans-serif; }
+  input[type=range]{
+    -webkit-appearance:none;
+    width:100%;
+    height:4px;
+    border-radius:2px;
+    background:var(--line);
+    margin-top:14px;
+    outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:18px; height:18px;
+    border-radius:50%;
+    background:var(--lamp);
+    border:3px solid var(--bg-0);
+    box-shadow:0 0 0 1px var(--lamp);
+    cursor:pointer;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:18px; height:18px;
+    border-radius:50%;
+    background:var(--lamp);
+    border:3px solid var(--bg-0);
+    cursor:pointer;
+  }
+
+  .submit-btn{
+    width:100%;
+    padding:16px;
+    border-radius:14px;
+    border:none;
+    background:var(--lamp);
+    color:#241a05;
+    font-family:'IBM Plex Sans KR', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:0.01em;
+    cursor:pointer;
+    margin-top:6px;
+    transition:transform .12s ease, background .15s ease;
+  }
+  .submit-btn:hover{ background:#ffbb52; }
+  .submit-btn:active{ transform:scale(0.98); }
+
+  /* ---- Result screen ---- */
+  #resultScreen{ display:none; }
+  .rx-card{
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:16px;
+    padding:26px 24px 24px;
+    position:relative;
+    box-shadow:0 20px 40px -12px rgba(0,0,0,0.5);
+    transform:scale(0.9) translateY(14px);
+    opacity:0;
+    animation:cardIn .5s cubic-bezier(.2,.8,.2,1) forwards;
+    background-image:
+      repeating-linear-gradient(transparent, transparent 27px, var(--paper-line) 28px);
+  }
+  @keyframes cardIn{ to{ transform:scale(1) translateY(0); opacity:1; } }
+
+  .rx-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:10px;
+    margin-bottom:16px;
+  }
+  .rx-logo{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:22px;
+  }
+  .rx-no{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    color:var(--ink-soft);
+    text-align:right;
+    line-height:1.5;
+  }
+  .rx-cat-label{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    padding:3px 9px;
+    border-radius:100px;
+    margin-bottom:10px;
+    color:#fff;
+  }
+  .rx-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:21px;
+    margin:0 0 4px;
+    line-height:1.3;
+  }
+  .rx-dose{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-bottom:16px;
+  }
+  .rx-dose b{ color:var(--ink); font-size:16px; }
+
+  .rx-steps{
+    list-style:none;
+    margin:0 0 16px;
+    padding:0;
+  }
+  .rx-steps li{
+    position:relative;
+    padding-left:22px;
+    margin-bottom:9px;
+    font-size:14px;
+    line-height:1.55;
+  }
+  .rx-steps li::before{
+    content:"·";
+    position:absolute; left:4px; top:-2px;
+    font-size:22px;
+    color:var(--ink-soft);
+  }
+
+  .rx-caution{
+    font-size:12px;
+    line-height:1.6;
+    color:var(--ink-soft);
+    border-top:1px dashed var(--paper-line);
+    padding-top:12px;
+  }
+  .rx-caution b{ color:var(--ink); }
+
+  .stamp{
+    position:absolute;
+    right:20px; bottom:20px;
+    width:78px; height:78px;
+    border:3px solid var(--rose);
+    border-radius:50%;
+    color:var(--rose);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    transform:rotate(-14deg) scale(0);
+    opacity:0;
+    animation:stampIn .35s ease .55s forwards;
+    mix-blend-mode:multiply;
+  }
+  @keyframes stampIn{
+    0%{ transform:rotate(-14deg) scale(1.6); opacity:0; }
+    60%{ transform:rotate(-14deg) scale(0.92); opacity:1; }
+    100%{ transform:rotate(-14deg) scale(1); opacity:1; }
+  }
+
+  .timer-box{
+    margin-top:14px;
+    background:var(--bg-1);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:18px 20px;
+    text-align:center;
+  }
+  .timer-display{
+    font-family:'Fraunces', serif;
+    font-size:44px;
+    color:var(--lamp);
+    margin:6px 0 4px;
+    transition:color .3s ease;
+  }
+  .timer-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.08em;
+    color:#8b95a3;
+    text-transform:uppercase;
+  }
+  .timer-controls{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+  }
+  .timer-controls button{
+    flex:1;
+    padding:11px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:var(--bg-2);
+    color:var(--paper);
+    font-family:'IBM Plex Sans KR', sans-serif;
+    font-size:13px;
+    cursor:pointer;
+  }
+  .timer-controls button.primary{
+    background:var(--sage);
+    border-color:var(--sage);
+    color:#0e1a13;
+    font-weight:600;
+  }
+  .timer-done{
+    display:none;
+    margin-top:10px;
+    font-size:13px;
+    color:var(--sage);
+  }
+
+  .reset-link{
+    display:block;
+    text-align:center;
+    margin-top:18px;
+    color:#7c8794;
+    font-size:12.5px;
+    text-decoration:underline;
+    cursor:pointer;
+    background:none;
+    border:none;
+    width:100%;
+    font-family:'IBM Plex Sans KR', sans-serif;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .rx-card, .stamp{ animation:none !important; opacity:1 !important; transform:none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="topbar">
+    <div class="brand">휴식 처방소</div>
+    <div class="brand-sub">STUDY RECOVERY LAB</div>
+  </div>
+
+  <div id="formScreen">
+    <div class="hero">
+      <h1>지금 딱 필요한<br>휴식을 처방해드려요</h1>
+      <p>공부 루틴 몇 가지만 알려주시면, 상태에 맞는 휴식 방식과 시간을 처방전으로 알려드립니다.</p>
+    </div>
+
+    <div class="card">
+      <h2>방금 몇 분 공부했나요</h2>
+      <div class="slider-wrap">
+        <div class="slider-value"><span id="minVal">40</span><span> 분</span></div>
+        <input type="range" id="minutes" min="10" max="150" step="5" value="40">
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>지금 집중력은 어땠나요</h2>
+      <div class="chip-row" data-group="focus">
+        <div class="chip" data-value="good">잘 됐어요</div>
+        <div class="chip active" data-value="mid">그냥 그랬어요</div>
+        <div class="chip" data-value="hard">힘들었어요</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>지금 에너지 상태는</h2>
+      <div class="chip-row" data-group="energy">
+        <div class="chip" data-value="high">쌩쌩해요</div>
+        <div class="chip active" data-value="mid">보통이에요</div>
+        <div class="chip" data-value="low">지쳤어요</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>지금은 언제쯤인가요</h2>
+      <div class="chip-row" data-group="time">
+        <div class="chip" data-value="morning">아침</div>
+        <div class="chip" data-value="afternoon">오후</div>
+        <div class="chip" data-value="evening">저녁</div>
+        <div class="chip" data-value="night">밤</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>휴식 후엔 뭘 할 예정인가요</h2>
+      <div class="chip-row" data-group="next">
+        <div class="chip active" data-value="study">또 공부해요</div>
+        <div class="chip" data-value="active">몸 쓰는 일정</div>
+        <div class="chip" data-value="free">자유시간</div>
+      </div>
+    </div>
+
+    <button class="submit-btn" onclick="prescribe()">휴식 처방받기 →</button>
+  </div>
+
+  <div id="resultScreen">
+    <div class="rx-card" id="rxCard">
+      <div class="rx-top">
+        <div class="rx-logo">Rx.</div>
+        <div class="rx-no" id="rxNo"></div>
+      </div>
+      <span class="rx-cat-label" id="rxCatLabel"></span>
+      <div class="rx-title" id="rxTitle"></div>
+      <div class="rx-dose" id="rxDose"></div>
+      <ul class="rx-steps" id="rxSteps"></ul>
+      <div class="rx-caution" id="rxCaution"></div>
+      <div class="stamp">PRESCRIBED<br>처방완료</div>
+    </div>
+
+    <div class="timer-box">
+      <div class="timer-label">처방된 휴식 타이머</div>
+      <div class="timer-display" id="timerDisplay">05:00</div>
+      <div class="timer-controls">
+        <button onclick="toggleTimer()" id="timerToggleBtn" class="primary">휴식 시작</button>
+        <button onclick="resetTimer()">다시 설정</button>
+      </div>
+      <div class="timer-done" id="timerDone">휴식 완료! 이제 다시 시작해볼까요 ☕</div>
+    </div>
+
+    <button class="reset-link" onclick="goToForm()">← 처음부터 다시 처방받기</button>
+  </div>
+
+</div>
+
+<script>
+  // ---------- form state ----------
+  const state = { minutes:40, focus:'mid', energy:'mid', time:'afternoon', next:'study' };
+
+  // auto-detect time of day for default selection
+  (function(){
+    const h = new Date().getHours();
+    let t = 'afternoon';
+    if(h < 11) t = 'morning';
+    else if(h < 17) t = 'afternoon';
+    else if(h < 21) t = 'evening';
+    else t = 'night';
+    state.time = t;
+  })();
+
+  document.getElementById('minutes').addEventListener('input', e=>{
+    state.minutes = parseInt(e.target.value);
+    document.getElementById('minVal').textContent = state.minutes;
+  });
+
+  document.querySelectorAll('.chip-row').forEach(row=>{
+    const group = row.dataset.group;
+    row.querySelectorAll('.chip').forEach(chip=>{
+      if(chip.dataset.value === state[group]) chip.classList.add('active');
+      chip.addEventListener('click', ()=>{
+        row.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+        chip.classList.add('active');
+        state[group] = chip.dataset.value;
+      });
+    });
+  });
+  // reflect auto-detected time chip
+  document.querySelectorAll('[data-group="time"] .chip').forEach(c=>{
+    if(c.dataset.value === state.time) c.classList.add('active');
+  });
+
+  // ---------- categories ----------
+  const CATS = {
+    active:  { label:'활동형 휴식', color:'#f2a93b', title:'몸을 깨우는 활동형 휴식',
+      variants:[
+        { steps:['자리에서 일어나 목과 어깨를 가볍게 돌려주세요','제자리 걸음이나 계단 오르내리기를 1~2분 해보세요','물 한 잔을 천천히 마셔보세요'],
+          caution:'격한 운동보다는 가볍게 몸을 깨우는 정도가 좋아요.' },
+        { steps:['창문을 열고 바깥 공기를 마셔보세요','손목과 허리를 가볍게 스트레칭해보세요','좋아하는 노래 한 곡에 맞춰 몸을 움직여보세요'],
+          caution:'숨이 찰 정도의 운동은 오히려 집중력 회복을 늦출 수 있어요.' } ] },
+    sensory: { label:'감각 전환형', color:'#4fa9a0', title:'눈과 마음을 쉬게 하는 감각 전환',
+      variants:[
+        { steps:['화면에서 눈을 떼고 먼 곳을 20초간 바라보세요','창밖 풍경이나 초록색 식물을 바라보세요','조명을 살짝 어둡게 하고 눈을 감아보세요'],
+          caution:'이 시간엔 휴대폰 화면도 잠시 멀리 해주세요.' },
+        { steps:['좋아하는 향(커피, 아로마 등)을 맡아보세요','조용한 음악이나 백색소음을 들어보세요','눈을 감고 천천히 심호흡을 5회 해보세요'],
+          caution:'새로운 정보가 들어오는 콘텐츠(뉴스, SNS)는 피해주세요.' } ] },
+    social:  { label:'사회적 휴식', color:'#9c7bb0', title:'가볍게 연결되는 사회적 휴식',
+      variants:[
+        { steps:['가족이나 친구에게 안부 메시지를 보내보세요','같이 공부하는 사람과 잠깐 대화를 나눠보세요','반려동물이나 식물을 잠깐 돌봐주세요'],
+          caution:'대화가 길어지면 복귀가 늦어질 수 있으니 시간을 정해두세요.' } ] },
+    deep:    { label:'완전 휴식형', color:'#8fb79b', title:'완전히 내려놓는 깊은 휴식',
+      variants:[
+        { steps:['편한 자세로 눈을 감고 아무 생각도 하지 않아보세요','알람을 맞추고 짧게 눈을 붙여보세요','조명을 끄고 잠시 어둠 속에 있어보세요'],
+          caution:'밤 시간대의 낮잠은 10분을 넘기지 않는 게 좋아요.' } ] },
+    cognitive:{ label:'인지 전환형', color:'#c76b5b', title:'다른 자극으로 머리를 환기하는 휴식',
+      variants:[
+        { steps:['지금 공부와 전혀 다른 주제의 짧은 글이나 영상을 봐보세요','낙서나 그림을 가볍게 끄적여보세요','오늘 할 일 목록을 가볍게 정리해보세요'],
+          caution:'몰입도 높은 콘텐츠(게임, 드라마)는 복귀를 어렵게 만들 수 있어요.' } ] }
+  };
+
+  function scoreCategories(s){
+    const sc = { active:0, sensory:1, social:0, deep:0, cognitive:0 };
+    // active
+    if(s.energy==='low' && s.focus!=='hard') sc.active += 2;
+    if(s.time==='morning' || s.time==='afternoon') sc.active += 1;
+    if(s.next==='study') sc.active += 1;
+    if(s.energy==='low' && s.focus==='hard') sc.active -= 2;
+    // sensory
+    if(s.minutes>=50) sc.sensory += 2;
+    if(s.focus==='hard') sc.sensory += 2;
+    // social
+    if(s.next==='free') sc.social += 2;
+    if(s.time==='afternoon' || s.time==='evening') sc.social += 1;
+    if(s.energy==='low') sc.social -= 1;
+    // deep
+    if(s.energy==='low' && s.focus==='hard') sc.deep += 3;
+    if(s.time==='night') sc.deep += 2;
+    if(s.minutes>=90) sc.deep += 1;
+    if(s.next==='study' && s.minutes<25) sc.deep -= 1;
+    // cognitive
+    if(s.focus==='hard' && s.energy!=='low') sc.cognitive += 2;
+    if(s.minutes>=50) sc.cognitive += 1;
+    if(s.next==='study') sc.cognitive += 1;
+
+    let best='sensory', bestScore=-Infinity;
+    for(const k in sc){ if(sc[k]>bestScore){ bestScore=sc[k]; best=k; } }
+    return best;
+  }
+
+  function getDuration(s, cat){
+    let d;
+    if(s.minutes<=25) d=5;
+    else if(s.minutes<=50) d=8;
+    else if(s.minutes<=90) d=15;
+    else d=20;
+    if(s.energy==='low') d+=5;
+    if(cat==='deep' && s.time==='night') d=Math.min(d,10);
+    if(cat==='social') d=Math.max(d,10);
+    return d;
+  }
+
+  function pad(n){ return n.toString().padStart(2,'0'); }
+
+  let timerSeconds = 300, timerInterval = null, timerRunning = false;
+
+  function prescribe(){
+    const cat = scoreCategories(state);
+    const catData = CATS[cat];
+    const variant = catData.variants[Math.floor(Math.random()*catData.variants.length)];
+    const duration = getDuration(state, cat);
+
+    const rxNo = 'No. ' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + Math.floor(Math.random()*90+10);
+    document.getElementById('rxNo').innerHTML = rxNo + '<br>' + new Date().toLocaleDateString('ko-KR');
+
+    const label = document.getElementById('rxCatLabel');
+    label.textContent = catData.label;
+    label.style.background = catData.color;
+
+    document.getElementById('rxTitle').textContent = catData.title;
+    document.getElementById('rxDose').innerHTML = '1회 <b>' + duration + '분</b> · 즉시 복용';
+
+    const stepsEl = document.getElementById('rxSteps');
+    stepsEl.innerHTML = '';
+    variant.steps.forEach(st=>{
+      const li = document.createElement('li');
+      li.textContent = st;
+      stepsEl.appendChild(li);
+    });
+    document.getElementById('rxCaution').innerHTML = '<b>주의사항.</b> ' + variant.caution;
+
+    // restart card animation
+    const card = document.getElementById('rxCard');
+    card.style.animation = 'none';
+    void card.offsetWidth;
+    card.style.animation = '';
+
+    // set up timer
+    timerSeconds = duration*60;
+    updateTimerDisplay();
+    document.getElementById('timerDone').style.display='none';
+    document.getElementById('timerToggleBtn').textContent = '휴식 시작';
+    timerRunning = false;
+    clearInterval(timerInterval);
+
+    document.getElementById('formScreen').style.display='none';
+    document.getElementById('resultScreen').style.display='block';
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function updateTimerDisplay(){
+    const m = Math.floor(timerSeconds/60), s = timerSeconds%60;
+    document.getElementById('timerDisplay').textContent = pad(m)+':'+pad(s);
+  }
+
+  function toggleTimer(){
+    const btn = document.getElementById('timerToggleBtn');
+    if(timerRunning){
+      clearInterval(timerInterval);
+      timerRunning = false;
+      btn.textContent = '이어서 하기';
+      return;
+    }
+    timerRunning = true;
+    btn.textContent = '일시정지';
+    document.getElementById('timerDone').style.display='none';
+    timerInterval = setInterval(()=>{
+      timerSeconds--;
+      updateTimerDisplay();
+      if(timerSeconds<=0){
+        clearInterval(timerInterval);
+        timerRunning = false;
+        btn.textContent = '휴식 시작';
+        document.getElementById('timerDone').style.display='block';
+        document.getElementById('timerDisplay').style.color = '#8fb79b';
+      }
+    }, 1000);
+  }
+
+  function resetTimer(){
+    clearInterval(timerInterval);
+    timerRunning = false;
+    document.getElementById('timerToggleBtn').textContent = '휴식 시작';
+    document.getElementById('timerDone').style.display='none';
+    document.getElementById('timerDisplay').style.color = '';
+    // recompute from current rx dose text
+    const doseText = document.getElementById('rxDose').textContent;
+    const match = doseText.match(/(\d+)분/);
+    timerSeconds = match ? parseInt(match[1])*60 : 300;
+    updateTimerDisplay();
+  }
+
+  function goToForm(){
+    document.getElementById('resultScreen').style.display='none';
+    document.getElementById('formScreen').style.display='block';
+    clearInterval(timerInterval);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>
