@@ -1,17 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>휴식 처방소</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#12161f">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="휴식처방소">
-<link rel="apple-touch-icon" href="icon-192.png">
-<link rel="icon" href="icon-192.png">
+<title>Rest Prescription</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -401,62 +393,62 @@
 <div class="app">
 
   <div class="topbar">
-    <div class="brand">휴식 처방소</div>
+    <div class="brand">Rest Prescription</div>
     <div class="brand-sub">STUDY RECOVERY LAB</div>
   </div>
 
   <div id="formScreen">
     <div class="hero">
-      <h1>지금 딱 필요한<br>휴식을 처방해드려요</h1>
-      <p>공부 루틴 몇 가지만 알려주시면, 상태에 맞는 휴식 방식과 시간을 처방전으로 알려드립니다.</p>
+      <h1>The break you<br>actually need, right now</h1>
+      <p>Answer a few quick questions about your study session and get a prescribed break, tailored to your state.</p>
     </div>
 
     <div class="card">
-      <h2>방금 몇 분 공부했나요</h2>
+      <h2>How long did you just study</h2>
       <div class="slider-wrap">
-        <div class="slider-value"><span id="minVal">40</span><span> 분</span></div>
+        <div class="slider-value"><span id="minVal">40</span><span> min</span></div>
         <input type="range" id="minutes" min="10" max="150" step="5" value="40">
       </div>
     </div>
 
     <div class="card">
-      <h2>지금 집중력은 어땠나요</h2>
+      <h2>How was your focus</h2>
       <div class="chip-row" data-group="focus">
-        <div class="chip" data-value="good">잘 됐어요</div>
-        <div class="chip active" data-value="mid">그냥 그랬어요</div>
-        <div class="chip" data-value="hard">힘들었어요</div>
+        <div class="chip" data-value="good">Sharp</div>
+        <div class="chip active" data-value="mid">So-so</div>
+        <div class="chip" data-value="hard">Struggling</div>
       </div>
     </div>
 
     <div class="card">
-      <h2>지금 에너지 상태는</h2>
+      <h2>What's your energy like</h2>
       <div class="chip-row" data-group="energy">
-        <div class="chip" data-value="high">쌩쌩해요</div>
-        <div class="chip active" data-value="mid">보통이에요</div>
-        <div class="chip" data-value="low">지쳤어요</div>
+        <div class="chip" data-value="high">Wide awake</div>
+        <div class="chip active" data-value="mid">Average</div>
+        <div class="chip" data-value="low">Drained</div>
       </div>
     </div>
 
     <div class="card">
-      <h2>지금은 언제쯤인가요</h2>
+      <h2>What time is it</h2>
       <div class="chip-row" data-group="time">
-        <div class="chip" data-value="morning">아침</div>
-        <div class="chip" data-value="afternoon">오후</div>
-        <div class="chip" data-value="evening">저녁</div>
-        <div class="chip" data-value="night">밤</div>
+        <div class="chip" data-value="morning">Morning</div>
+        <div class="chip" data-value="afternoon">Afternoon</div>
+        <div class="chip" data-value="evening">Evening</div>
+        <div class="chip" data-value="night">Night</div>
       </div>
     </div>
 
     <div class="card">
-      <h2>휴식 후엔 뭘 할 예정인가요</h2>
+      <h2>What's next after the break</h2>
       <div class="chip-row" data-group="next">
-        <div class="chip active" data-value="study">또 공부해요</div>
-        <div class="chip" data-value="active">몸 쓰는 일정</div>
-        <div class="chip" data-value="free">자유시간</div>
+        <div class="chip active" data-value="study">More studying</div>
+        <div class="chip" data-value="active">Physical activity</div>
+        <div class="chip" data-value="free">Free time</div>
       </div>
     </div>
 
-    <button class="submit-btn" onclick="prescribe()">휴식 처방받기 →</button>
+    <button class="submit-btn" onclick="prescribe()">Get my prescription →</button>
   </div>
 
   <div id="resultScreen">
@@ -470,20 +462,20 @@
       <div class="rx-dose" id="rxDose"></div>
       <ul class="rx-steps" id="rxSteps"></ul>
       <div class="rx-caution" id="rxCaution"></div>
-      <div class="stamp">PRESCRIBED<br>처방완료</div>
+      <div class="stamp">PRESCRIBED</div>
     </div>
 
     <div class="timer-box">
-      <div class="timer-label">처방된 휴식 타이머</div>
+      <div class="timer-label">Prescribed break timer</div>
       <div class="timer-display" id="timerDisplay">05:00</div>
       <div class="timer-controls">
-        <button onclick="toggleTimer()" id="timerToggleBtn" class="primary">휴식 시작</button>
-        <button onclick="resetTimer()">다시 설정</button>
+        <button onclick="toggleTimer()" id="timerToggleBtn" class="primary">Start break</button>
+        <button onclick="resetTimer()">Reset</button>
       </div>
-      <div class="timer-done" id="timerDone">휴식 완료! 이제 다시 시작해볼까요 ☕</div>
+      <div class="timer-done" id="timerDone">Break complete! Ready to dive back in? ☕</div>
     </div>
 
-    <button class="reset-link" onclick="goToForm()">← 처음부터 다시 처방받기</button>
+    <button class="reset-link" onclick="goToForm()">← Get a new prescription</button>
   </div>
 
 </div>
@@ -526,30 +518,30 @@
 
   // ---------- categories ----------
   const CATS = {
-    active:  { label:'활동형 휴식', color:'#f2a93b', title:'몸을 깨우는 활동형 휴식',
+    active:  { label:'Active reset', color:'#f2a93b', title:'An active reset to wake up your body',
       variants:[
-        { steps:['자리에서 일어나 목과 어깨를 가볍게 돌려주세요','제자리 걸음이나 계단 오르내리기를 1~2분 해보세요','물 한 잔을 천천히 마셔보세요'],
-          caution:'격한 운동보다는 가볍게 몸을 깨우는 정도가 좋아요.' },
-        { steps:['창문을 열고 바깥 공기를 마셔보세요','손목과 허리를 가볍게 스트레칭해보세요','좋아하는 노래 한 곡에 맞춰 몸을 움직여보세요'],
-          caution:'숨이 찰 정도의 운동은 오히려 집중력 회복을 늦출 수 있어요.' } ] },
-    sensory: { label:'감각 전환형', color:'#4fa9a0', title:'눈과 마음을 쉬게 하는 감각 전환',
+        { steps:['Stand up and gently roll your neck and shoulders','Walk in place or take a lap up and down the stairs for a minute or two','Slowly drink a glass of water'],
+          caution:'Keep it light — anything strenuous can slow down your focus recovery.' },
+        { steps:['Open a window and get some fresh air','Gently stretch your wrists and lower back','Move your body to one favorite song'],
+          caution:'If it makes you breathless, it\'s too much — keep the movement light.' } ] },
+    sensory: { label:'Sensory reset', color:'#4fa9a0', title:'A sensory reset for your eyes and mind',
       variants:[
-        { steps:['화면에서 눈을 떼고 먼 곳을 20초간 바라보세요','창밖 풍경이나 초록색 식물을 바라보세요','조명을 살짝 어둡게 하고 눈을 감아보세요'],
-          caution:'이 시간엔 휴대폰 화면도 잠시 멀리 해주세요.' },
-        { steps:['좋아하는 향(커피, 아로마 등)을 맡아보세요','조용한 음악이나 백색소음을 들어보세요','눈을 감고 천천히 심호흡을 5회 해보세요'],
-          caution:'새로운 정보가 들어오는 콘텐츠(뉴스, SNS)는 피해주세요.' } ] },
-    social:  { label:'사회적 휴식', color:'#9c7bb0', title:'가볍게 연결되는 사회적 휴식',
+        { steps:['Look away from the screen and focus on something far away for 20 seconds','Look at a view outside or a green plant','Dim the lights and close your eyes for a moment'],
+          caution:'Keep your phone screen out of sight too, just for this break.' },
+        { steps:['Breathe in a scent you like (coffee, aroma oil, etc.)','Listen to some quiet music or white noise','Close your eyes and take 5 slow, deep breaths'],
+          caution:'Avoid new-information content like news or social media right now.' } ] },
+    social:  { label:'Social reset', color:'#9c7bb0', title:'A light, social kind of reset',
       variants:[
-        { steps:['가족이나 친구에게 안부 메시지를 보내보세요','같이 공부하는 사람과 잠깐 대화를 나눠보세요','반려동물이나 식물을 잠깐 돌봐주세요'],
-          caution:'대화가 길어지면 복귀가 늦어질 수 있으니 시간을 정해두세요.' } ] },
-    deep:    { label:'완전 휴식형', color:'#8fb79b', title:'완전히 내려놓는 깊은 휴식',
+        { steps:['Send a quick message to a friend or family member','Chat for a moment with someone studying nearby','Check in on a pet or plant'],
+          caution:'Set a time limit — a long conversation can delay getting back to work.' } ] },
+    deep:    { label:'Deep rest', color:'#8fb79b', title:'A deep rest that lets you fully switch off',
       variants:[
-        { steps:['편한 자세로 눈을 감고 아무 생각도 하지 않아보세요','알람을 맞추고 짧게 눈을 붙여보세요','조명을 끄고 잠시 어둠 속에 있어보세요'],
-          caution:'밤 시간대의 낮잠은 10분을 넘기지 않는 게 좋아요.' } ] },
-    cognitive:{ label:'인지 전환형', color:'#c76b5b', title:'다른 자극으로 머리를 환기하는 휴식',
+        { steps:['Get comfortable, close your eyes, and let your mind go blank','Set an alarm and take a short nap','Turn off the lights and sit in the dark for a moment'],
+          caution:'Nighttime naps should stay under 10 minutes.' } ] },
+    cognitive:{ label:'Cognitive shift', color:'#c76b5b', title:'A cognitive shift to air out your mind',
       variants:[
-        { steps:['지금 공부와 전혀 다른 주제의 짧은 글이나 영상을 봐보세요','낙서나 그림을 가볍게 끄적여보세요','오늘 할 일 목록을 가볍게 정리해보세요'],
-          caution:'몰입도 높은 콘텐츠(게임, 드라마)는 복귀를 어렵게 만들 수 있어요.' } ] }
+        { steps:['Check out something completely unrelated to what you were studying','Doodle or sketch something, no pressure','Jot down a light to-do list for today'],
+          caution:'Avoid highly immersive content (games, shows) — it can make it hard to come back.' } ] }
   };
 
   function scoreCategories(s){
@@ -585,7 +577,7 @@
     let d;
     if(s.minutes<=25) d=5;
     else if(s.minutes<=50) d=8;
-    else if(s.minutes<=90) d=15;
+    else if(s.minutes<90) d=15;
     else d=20;
     if(s.energy==='low') d+=5;
     if(cat==='deep' && s.time==='night') d=Math.min(d,10);
@@ -604,14 +596,14 @@
     const duration = getDuration(state, cat);
 
     const rxNo = 'No. ' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + Math.floor(Math.random()*90+10);
-    document.getElementById('rxNo').innerHTML = rxNo + '<br>' + new Date().toLocaleDateString('ko-KR');
+    document.getElementById('rxNo').innerHTML = rxNo + '<br>' + new Date().toLocaleDateString('en-US');
 
     const label = document.getElementById('rxCatLabel');
     label.textContent = catData.label;
     label.style.background = catData.color;
 
     document.getElementById('rxTitle').textContent = catData.title;
-    document.getElementById('rxDose').innerHTML = '1회 <b>' + duration + '분</b> · 즉시 복용';
+    document.getElementById('rxDose').innerHTML = '<b>' + duration + ' min</b> · take immediately';
 
     const stepsEl = document.getElementById('rxSteps');
     stepsEl.innerHTML = '';
@@ -620,7 +612,7 @@
       li.textContent = st;
       stepsEl.appendChild(li);
     });
-    document.getElementById('rxCaution').innerHTML = '<b>주의사항.</b> ' + variant.caution;
+    document.getElementById('rxCaution').innerHTML = '<b>Note.</b> ' + variant.caution;
 
     // restart card animation
     const card = document.getElementById('rxCard');
@@ -632,7 +624,7 @@
     timerSeconds = duration*60;
     updateTimerDisplay();
     document.getElementById('timerDone').style.display='none';
-    document.getElementById('timerToggleBtn').textContent = '휴식 시작';
+    document.getElementById('timerToggleBtn').textContent = 'Start break';
     timerRunning = false;
     clearInterval(timerInterval);
 
@@ -651,11 +643,11 @@
     if(timerRunning){
       clearInterval(timerInterval);
       timerRunning = false;
-      btn.textContent = '이어서 하기';
+      btn.textContent = 'Resume';
       return;
     }
     timerRunning = true;
-    btn.textContent = '일시정지';
+    btn.textContent = 'Pause';
     document.getElementById('timerDone').style.display='none';
     timerInterval = setInterval(()=>{
       timerSeconds--;
@@ -663,7 +655,7 @@
       if(timerSeconds<=0){
         clearInterval(timerInterval);
         timerRunning = false;
-        btn.textContent = '휴식 시작';
+        btn.textContent = 'Start break';
         document.getElementById('timerDone').style.display='block';
         document.getElementById('timerDisplay').style.color = '#8fb79b';
       }
@@ -673,12 +665,12 @@
   function resetTimer(){
     clearInterval(timerInterval);
     timerRunning = false;
-    document.getElementById('timerToggleBtn').textContent = '휴식 시작';
+    document.getElementById('timerToggleBtn').textContent = 'Start break';
     document.getElementById('timerDone').style.display='none';
     document.getElementById('timerDisplay').style.color = '';
     // recompute from current rx dose text
     const doseText = document.getElementById('rxDose').textContent;
-    const match = doseText.match(/(\d+)분/);
+    const match = doseText.match(/(\d+)\s*min/);
     timerSeconds = match ? parseInt(match[1])*60 : 300;
     updateTimerDisplay();
   }
@@ -688,12 +680,6 @@
     document.getElementById('formScreen').style.display='block';
     clearInterval(timerInterval);
     window.scrollTo({top:0, behavior:'smooth'});
-  }
-
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js').catch(() => {});
-    });
   }
 </script>
 </body>
