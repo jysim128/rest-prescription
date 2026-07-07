@@ -1,14 +1,14 @@
 {
-  "name": "휴식 처방소",
-  "short_name": "휴식처방소",
-  "description": "공부 루틴에 맞는 휴식 방식을 처방해주는 앱",
+  "name": "Rest Prescription",
+  "short_name": "Rest Rx",
+  "description": "Prescribes the right kind of break for your study routine",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#12161f",
   "theme_color": "#12161f",
   "orientation": "portrait",
-  "lang": "ko",
+  "lang": "en",
   "icons": [
     { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
     { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
